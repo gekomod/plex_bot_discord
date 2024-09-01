@@ -18,6 +18,11 @@ Aby uruchomić skrypt, należy zainstalować odpowiednie biblioteki:
 ```properties
 npm install discord.js sqlite3 axios progress
 ```
+Lub wykonca tą komendę
+
+```properties
+npm install
+```
 
 # Konfiguracja
 Plik config.json powinien zawierać następujące dane:
