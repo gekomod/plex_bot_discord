@@ -1,1 +1,3 @@
-# plex_bot_discord
+# Plex Bot To Discord
+
+``` node index.js & ```
