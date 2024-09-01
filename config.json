@@ -1,0 +1,8 @@
+{
+    "bot_token": "TOKEN",
+    "plex_token": "PLEX TOKEN",
+    "discord_channel": "DISCORD CHANNEL",
+    "plex_url": "FULL URL TO PLEX http://url:32400",
+    "database_file": "movies.db",
+    "TMDB_API_KEY": "NOT_IMPLEMENTED"
+}
