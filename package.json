@@ -1,0 +1,13 @@
+{
+    "name": "plex-bot",
+    "version": "1.0.0",
+    "dependencies": {
+        "@hugop/discord-table": "^1.0.1",
+        "axios": "^0.21.1",
+        "discord.js": "^14.0.0",
+        "embed-table": "^4.2.3",
+        "plex-api": "^5.3.2",
+        "progress": "^2.0.3",
+        "sqlite3": "^5.0.2"
+    }
+}
