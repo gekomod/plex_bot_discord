@@ -49,7 +49,7 @@ async function messageSend(title,content,color,image) {
 async function firstRun() {
     try {
         createDatabase();
-        const response = await axios.get(`${config.plex_url}/library/sections/1/all?X-Plex-Token=${config.plex_token}`);
+        const response = await axios.get(`${config.plex_url}/library/all?X-Plex-Token=${config.plex_token}`);
         const movies = response.data.MediaContainer.Metadata;
         const bar = new ProgressBar(':bar :percent', { total: movies.length });
 
@@ -94,7 +94,7 @@ async function newMovieInDatabase() {
                 });
 				bar.tick();
             }
-        }, 10000);
+        }, config.timeRefresh);
     } catch (error) {
         console.error("Error fetching movies from Plex:", error.message);
     }
@@ -105,7 +105,11 @@ async function refreshDatabase() {
     try {
         const response = await axios.get(`${config.plex_url}/library/all?X-Plex-Token=${config.plex_token}`);
         const movies = response.data.MediaContainer.Metadata;
-		const bar = new ProgressBar(':bar :percent', { total: movies.length });
+		const totalMovies = movies.length;
+		console.log('Scanning for new movies...');
+		console.log('Progress: [          ]');
+
+		let progress = 0;
 
         movies.forEach(movie => {
             db.get("SELECT * FROM movies WHERE id = ?", [movie.ratingKey], (err, row) => {
@@ -120,11 +124,13 @@ async function refreshDatabase() {
                             return;
                         }
                         const channel = client.channels.cache.get(config.discord_channel);
-                        channel.send(`New Movie Added: **${movie.title}**\nDuration: ${movie.duration / 60000} minutes\n![Movie Image](${movie.thumb})`);
+						messageSend(`Nowy Film Dodany: ${movie.title}`,`Czas Trwania: ${Math.floor(movie.duration / 60000)} minut`,'#4682B4',`${config.plex_url}${movie.thumb}?X-Plex-Token=${config.plex_token}`);
                     });
                 }
             });
-			bar.tick();
+			    progress++;
+    const progressBar = Math.floor((progress / totalMovies) * 10);
+    process.stdout.write(`\rProgress: [${'='.repeat(progressBar)}${' '.repeat(10 - progressBar)}]`);
         });
     } catch (error) {
         console.error("Error refreshing database:", error.message);
@@ -135,17 +141,17 @@ async function refreshDatabase() {
 client.on('messageCreate', message => {
     if (message.content === '!refresh') {
         refreshDatabase();
-        message.channel.send("Database refreshed!");
+        message.channel.send('Baza danych została odświeżona.');
     } else if (message.content === '!list') {
         db.all("SELECT * FROM movies", [], (err, rows) => {
             if (err) {
-                console.error("Error retrieving movies:", err.message);
+                console.error('Błąd podczas pobierania listy filmów:', err.message);
                 return;
             }
-            const movieList = rows.map(row => `${row.title} (Duration: ${row.duration / 60000} minutes)`).join('\n');
-	    rows.forEach(function(row) {
-		message.channel.send(`${row.title}`);
-	    });
+            const embed = new EmbedBuilder()
+                .setTitle('Lista filmów')
+                .setDescription(rows.map(row => row.title).join('\n'));
+            message.channel.send({ embeds: [embed] });
         });
     } else if (message.content === '!who') {
         actualListing(message.channel);
@@ -173,9 +179,8 @@ async function actualListing(channel) {
 
 // Launching the Bot
 client.once('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-    const channel = client.channels.cache.get(config.discord_channel);
-    channel.send("Bot is online and ready to monitor Plex movies!");
+    console.log(`Zalogowano jako ${client.user.tag}`);
+    messageSend('Bot uruchomiony!','Działa','#2F4F4F');
 	firstRun();
     newMovieInDatabase();
 });
