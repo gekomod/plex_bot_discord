@@ -2,6 +2,8 @@ const ProgressBar = require('progress');
 const MessageSend = require('./MessageSend');
 const axios = require('axios');
 const config = require('../configs/config.json');
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database(config.database_file);
 
 async function NewMovieInDatabase() {
     try {
@@ -28,7 +30,6 @@ async function NewMovieInDatabase() {
 		            		MessageSend(movie.title,`Czas Trwania: ${Math.floor(movie.duration / 60000)} minut`,'#4682B4',`${config.plex_url}${movie.thumb}?X-Plex-Token=${config.plex_token}`);
                         });
                     }
-					console.log(row);
                 });
 				progress++;
 				const progressBar = Math.floor((progress / totalMovies) * 10);

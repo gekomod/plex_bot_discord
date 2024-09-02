@@ -1,5 +1,6 @@
 const ProgressBar = require('progress');
 const createDatabase = require('./CreateDatabase');
+const MessageSend = require('./MessageSend');
 const axios = require('axios');
 const sqlite3 = require('sqlite3').verbose();
 const config = require('../configs/config.json');
@@ -29,8 +30,7 @@ async function FirstRun() {
             });
             bar.tick();
         });
-
-        console.log('First scan completed.');
+		MessageSend('Baza Danych','Baza Danych została zaaktualizowana!', '#F0F0F0');
     } catch (error) {
         console.error('Error during first run:', error.message);
     }
