@@ -3,7 +3,7 @@
     "plex_token": "PLEX TOKEN",
     "discord_channel": "DISCORD CHANNEL",
     "plex_url": "FULL URL TO PLEX http://url:32400",
-    "database_file": "movies.db",
+    "database_file": "database/movies.db",
     "TMDB_API_KEY": "NOT_IMPLEMENTED",
     "timeRefresh": 30000
 }
