@@ -1,5 +1,6 @@
 const ProgressBar = require('progress');
 const MessageSend = require('./MessageSend');
+const axios = require('axios');
 const config = require('../configs/config.json');
 
 async function NewMovieInDatabase() {
