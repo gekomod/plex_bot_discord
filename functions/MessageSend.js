@@ -1,7 +1,4 @@
 const { Client, EmbedBuilder, GatewayIntentBits } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-const config = require('../configs/config.json');
-
 // Funkcja do wysyłania wiadomości na Discord
 async function MessageSend(title,content,color,image) {
     try {

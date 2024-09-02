@@ -1,9 +1,5 @@
 const ProgressBar = require('progress');
 const MessageSend = require('./MessageSend');
-const axios = require('axios');
-const config = require('../configs/config.json');
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(config.database_file);
 
 async function NewMovieInDatabase() {
     try {

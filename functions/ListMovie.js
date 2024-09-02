@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require('discord.js');
-const config = require('../configs/config.json');
 
 async function ListMovie() {
 		db.all("SELECT * FROM movies", [], (err, rows) => {
