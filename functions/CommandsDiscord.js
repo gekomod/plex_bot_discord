@@ -16,11 +16,10 @@ function CommandsDiscord(messages) {
 			actualListing(message.channel);
 		} else if (message.content === '!info') {
 			InfoServer();
-		} else {
-			message.channel.send('Unknown command.');
 		}
 
 	});
+		
 }
 
 module.exports = CommandsDiscord;
