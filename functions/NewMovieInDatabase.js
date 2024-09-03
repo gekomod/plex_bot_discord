@@ -3,16 +3,17 @@ const MessageSend = require('./MessageSend');
 
 async function NewMovieInDatabase() {
     try {
-        setInterval(async () => {
-            const response = await axios.get(`${config.plex_url}/library/recentlyAdded?X-Plex-Token=${config.plex_token}`);
+        setInterval(async () => {	
+            const response = await axios.get(`${config.plex_url}/library/all?X-Plex-Token=${config.plex_token}`);
             const movies = response.data.MediaContainer.Metadata;
 			const totalMovies = movies.length;
-			console.log('Sprawdzanie czy są nowe filmy...');
-			
-			let progress = 0;
+			const bar = new ProgressBar('Scanning movies: [:bar] :percent :etas', { total: response.data.MediaContainer.size });
 
-            for (const movie of movies) {
+			console.log('Sprawdzanie czy są nowe filmy...');
+
+            movies.forEach(movie => {
                 db.get("SELECT * FROM movies WHERE id = ?", [movie.ratingKey], (err, row) => {
+					//if(row.id == movie.ratingKey) { console.log(`Istnieje w bazie ${movie.title}`); }
                     if (err) {
                         console.error("Error querying database:", err.message);
                         return;
@@ -27,10 +28,9 @@ async function NewMovieInDatabase() {
                         });
                     }
                 });
-				progress++;
-				const progressBar = Math.floor((progress / totalMovies) * 10);
-				process.stdout.write(`\rProgress: [${'='.repeat(progressBar)}${' '.repeat(10 - progressBar)}]`);
-            }
+				new Promise(resolve => setTimeout(resolve, 1500));
+            	bar.tick();
+            });
         }, config.timeRefresh);
     } catch (error) {
         console.error("Error fetching movies from Plex:", error.message);
