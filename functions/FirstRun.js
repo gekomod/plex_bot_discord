@@ -7,9 +7,8 @@ async function FirstRun() {
         createDatabase();
         const response = await axios.get(`${config.plex_url}/library/all?X-Plex-Token=${config.plex_token}`);
         const movies = response.data.MediaContainer.Metadata;
-		const totalMovies = movies.length;
+	const totalMovies = movies.length;
         const bar = new ProgressBar(':bar :percent', { total: movies.length });
-		console.log(totalMovies);
 
         movies.forEach(movie => {
             db.run(`INSERT INTO movies (title, duration, photo) VALUES (?, ?, ?)`, [movie.title, movie.duration, movie.thumb], (err) => {
