@@ -6,7 +6,7 @@ async function MessageSend(title,content,color,image) {
         const embed = new EmbedBuilder()
             .setTitle(title)
             .setDescription(content)
-	    	.setImage(image)
+	    .setThumbnail(image)
             .setColor(color);
         await channel.send({ embeds: [embed] });
     } catch (error) {
