@@ -11,13 +11,13 @@ async function RefreshDatabase(channel) {
 		let progress = 0;
 
         movies.forEach(movie => {
-            db.get("SELECT * FROM movies WHERE id = ?", [movie.ratingKey], (err, row) => {
+            db.get("SELECT * FROM movies WHERE ratingKey = ?", [movie.ratingKey], (err, row) => {
                 if (err) {
                     console.error("Error querying database:", err.message);
                     return;
                 }
                 if (!row) {
-                    db.run("INSERT INTO movies (id, title, photo, duration) VALUES (?, ?, ?, ?)", [movie.ratingKey, movie.title, movie.thumb, movie.duration], (err) => {
+                    db.run("INSERT INTO movies (ratingKey, title, photo, duration) VALUES (?, ?, ?, ?)", [movie.ratingKey, movie.title, movie.thumb, movie.duration], (err) => {
                         if (err) {
                             console.error("Error inserting movie into database:", err.message);
                             return;

@@ -1,12 +1,18 @@
 const { Client, EmbedBuilder, GatewayIntentBits } = require('discord.js');
 // Funkcja do wysyłania wiadomości na Discord
-async function MessageSend(title,content,color,image) {
+async function MessageSend(title,content,color,image,discChan) {
     try {
-        const channel = await client.channels.fetch(config.discord_channel);
+		if (!discChan){
+        	var channels = config.discord_channel;
+		} else {
+			var channels = config.discord_channel_newmovie;
+		}
+
+		const channel = await client.channels.fetch(channels);
         const embed = new EmbedBuilder()
             .setTitle(title)
             .setDescription(content)
-	    	.setImage(image)
+	    	.setThumbnail(image)
             .setColor(color);
         await channel.send({ embeds: [embed] });
     } catch (error) {

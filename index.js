@@ -6,7 +6,7 @@ const FirstRun = require('./functions/FirstRun');
 const CreateDatabase = require('./functions/CreateDatabase');
 const CommandsDiscord = require('./functions/CommandsDiscord');
 const MessageSend = require('./functions/MessageSend');
-const newMovieInDatabase = require('./functions/NewMovieInDatabase');
+newMovieInDatabase = require('./functions/NewMovieInDatabase');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 

@@ -2,7 +2,7 @@
 function CreateDatabase() {
 	
     db.serialize(() => {
-        db.run("CREATE TABLE IF NOT EXISTS movies (id INTEGER PRIMARY KEY, title TEXT, photo TEXT, duration INTEGER)", (err) => {
+        db.run("CREATE TABLE IF NOT EXISTS movies (id INTEGER PRIMARY KEY, ratingKey INTEGER, title TEXT, photo TEXT, duration INTEGER)", (err) => {
             if (err) {
                 console.error("Error creating database table:", err.message);
             }
