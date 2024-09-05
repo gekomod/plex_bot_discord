@@ -1,4 +1,4 @@
-const { Client, EmbedBuilder, GatewayIntentBits } = require('discord.js');
+const { Client, EmbedBuilder, GatewayIntentBits, REST, Routes } = require('discord.js');
 const config = require('./configs/config.json');
 require('./functions/ChackDB');
 axios = require('axios');
@@ -8,7 +8,6 @@ const CommandsDiscord = require('./functions/CommandsDiscord');
 const MessageSend = require('./functions/MessageSend');
 newMovieInDatabase = require('./functions/NewMovieInDatabase');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-
 
 client.once('ready', async () => {
     console.log(`Zalogowano jako ${client.user.tag}`);
